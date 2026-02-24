@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Supplier Performance Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Google Font similar to reference -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  </head>
+  <body>
+    <div class="app-root">
+      <!-- Top bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="breadcrumb">Supplier Dashboard / <span>Pre &amp; Post Award</span></div>
+        </div>
+        <div class="topbar-right">
+          <div class="last-refresh">
+            <span class="label">Last refresh :</span>
+            <span class="value" id="lastRefreshValue">--</span>
+          </div>
+          <button class="filters-btn" id="openFiltersBtn">
+            <span class="filters-icon">⚙️</span>
+            <span>Filters</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Tabs -->
+      <nav class="tabs">
+        <button class="tab active" data-view="pre">Pre Award</button>
+        <button class="tab" data-view="post">Post Award</button>
+      </nav>
+
+      <!-- Main content -->
+      <main class="dashboard">
+        <!-- Pre Award view -->
+        <section class="view view-pre active" data-view="pre">
+          <!-- KPI rows (8 KPIs, 4 x 4) -->
+          <section class="kpi-row kpi-row-pre">
+            <article class="kpi-card" data-kpi="tiering">
+              <div class="kpi-header">
+                <div class="kpi-icon kpi-icon-blue"><i class="fa-solid fa-layer-group"></i></div>
+                <div class="kpi-title">Tiering</div>
+              </div>
+              <div class="kpi-value">Tier 1</div>
+              <div class="kpi-subtitle">Pre award</div>
+            </article>
+
+            <article class="kpi-card" data-kpi="globalRisk">
+              <div class="kpi-header">
+                <div class="kpi-icon kpi-icon-green"><i class="fa-solid fa-globe"></i></div>
+                <div class="kpi-title">Supplier Global Risk</div>
+              </div>
+              <div class="kpi-value">Medium</div>
+              <div class="kpi-subtitle">Geopolitic, logistic, penuries…</div>
+            </article>
+
+            <article class="kpi-card" data-kpi="successfulAwards">
+              <div class="kpi-header">
+                <div class="kpi-icon kpi-icon-purple"><i class="fa-solid fa-trophy"></i></div>
+                <div class="kpi-title">Successful Awards</div>
+              </div>
+              <div class="kpi-value">42</div>
+              <div class="kpi-subtitle">Last 12 months</div>
+            </article>
+
+            <article class="kpi-card" data-kpi="awardingVolume">
+              <div class="kpi-header">
+                <div class="kpi-icon kpi-icon-orange"><i class="fa-solid fa-coins"></i></div>
+                <div class="kpi-title">Awarding Volume</div>
+              </div>
+              <div class="kpi-value">32.5M</div>
+              <div class="kpi-subtitle">Dirhams</div>
+            </article>
+
+            <article class="kpi-card" data-kpi="ongoingPO">
+              <div class="kpi-header">
+                <div class="kpi-icon kpi-icon-pink"><i class="fa-solid fa-file-contract"></i></div>
+                <div class="kpi-title">Ongoing PO / Contracts</div>
+              </div>
+              <div class="kpi-value">31</div>
+              <div class="kpi-subtitle">How many PO / Contracts ongoing</div>
+            </article>
+
+            <article class="kpi-card" data-kpi="ongoingBids">
+              <div class="kpi-header">
+                <div class="kpi-icon kpi-icon-orange"><i class="fa-solid fa-gavel"></i></div>
+                <div class="kpi-title">Ongoing Bids</div>
+              </div>
+              <div class="kpi-value">12</div>
+              <div class="kpi-subtitle">How many ongoing bids</div>
+            </article>
+
+            <article class="kpi-card" data-kpi="scorePreAwardKpi">
+              <div class="kpi-header">
+                <div class="kpi-icon kpi-icon-green"><i class="fa-solid fa-gauge-high"></i></div>
+                <div class="kpi-title">Score Pre Award</div>
+              </div>
+              <div class="kpi-value">81%</div>
+              <div class="kpi-subtitle">Global pre award score</div>
+            </article>
+
+            <article class="kpi-card" data-kpi="jesaScope">
+              <div class="kpi-header">
+                <div class="kpi-icon kpi-icon-pink"><i class="fa-solid fa-chart-pie"></i></div>
+                <div class="kpi-title">% of JESA Scope</div>
+              </div>
+              <div class="kpi-value">63%</div>
+              <div class="kpi-subtitle">Pre award</div>
+            </article>
+          </section>
+
+          <!-- Middle layout: left big chart + right gauges/status -->
+          <section class="middle-row">
+            <div class="panel panel-large">
+              <header class="panel-header">
+                <div>
+                  <h2>Chiffre d’Affaire &amp; JESA Dependence</h2>
+                  <p>Pre award – Double axis line chart</p>
+                </div>
+              </header>
+              <div class="panel-body">
+                <canvas id="caJesaChart"></canvas>
+              </div>
+            </div>
+
+            <div class="panel panel-side">
+              <header class="panel-header">
+                <h2>Pre Award Scores</h2>
+              </header>
+              <div class="panel-body gauges-grid">
+                <div class="gauge-card">
+                  <h3>Ecosystem Score</h3>
+                  <div class="gauge-wrapper">
+                    <canvas id="ecosystemGauge"></canvas>
+                    <div class="gauge-score">78%</div>
+                  </div>
+                </div>
+                <div class="gauge-card">
+                  <h3>HSE Score</h3>
+                  <div class="gauge-wrapper">
+                    <canvas id="hseGauge"></canvas>
+                    <div class="gauge-score">88%</div>
+                  </div>
+                </div>
+                <div class="gauge-card">
+                  <h3>Sustainability Score</h3>
+                  <div class="gauge-wrapper">
+                    <canvas id="sustainabilityGauge"></canvas>
+                    <div class="gauge-score">65%</div>
+                  </div>
+                </div>
+                <div class="gauge-card">
+                  <h3>Compliance Rate</h3>
+                  <div class="gauge-wrapper">
+                    <canvas id="complianceGauge"></canvas>
+                    <div class="gauge-score">92%</div>
+                  </div>
+                </div>
+                <div class="gauge-card">
+                  <h3>Score Pre Award</h3>
+                  <div class="gauge-wrapper">
+                    <canvas id="scorePreAwardGauge"></canvas>
+                    <div class="gauge-score">81%</div>
+                  </div>
+                </div>
+                <div class="gauge-card status-card">
+                  <h3>Overall Status</h3>
+                  <div class="status-pill status-good">Good</div>
+                  <p class="status-caption">Name in green / yellow / red by performance</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <!-- Post Award view -->
+        <section class="view view-post" data-view="post">
+          <!-- Post award KPI cards -->
+          <section class="kpi-row">
+            <article class="kpi-card" data-kpi="changeRequests">
+              <div class="kpi-header">
+                <div class="kpi-icon kpi-icon-orange"><i class="fa-solid fa-rotate"></i></div>
+                <div class="kpi-title">Change Requests</div>
+              </div>
+              <div class="kpi-value">8</div>
+              <div class="kpi-subtitle">Post award</div>
+            </article>
+
+            <article class="kpi-card" data-kpi="claims">
+              <div class="kpi-header">
+                <div class="kpi-icon kpi-icon-purple"><i class="fa-solid fa-scale-balanced"></i></div>
+                <div class="kpi-title">Count of Claims</div>
+              </div>
+              <div class="kpi-value">5</div>
+              <div class="kpi-subtitle">Post award</div>
+            </article>
+
+            <article class="kpi-card" data-kpi="avgScoreClosed">
+              <div class="kpi-header">
+                <div class="kpi-icon kpi-icon-green"><i class="fa-solid fa-star-half-stroke"></i></div>
+                <div class="kpi-title">Average Score Closed</div>
+              </div>
+              <div class="kpi-value">78%</div>
+              <div class="kpi-subtitle">Post award performance</div>
+            </article>
+
+            <article class="kpi-card" data-kpi="contractsPerContractor">
+              <div class="kpi-header">
+                <div class="kpi-icon kpi-icon-blue"><i class="fa-solid fa-file-signature"></i></div>
+                <div class="kpi-title">Nbre de contrat / Contractant</div>
+              </div>
+              <div class="kpi-value">23</div>
+              <div class="kpi-subtitle">Post award</div>
+            </article>
+          </section>
+
+          <!-- Post award gauges row -->
+          <section class="gauges-row">
+            <div class="panel small-gauge">
+              <header class="panel-header">
+                <h2>Score Post Award MM</h2>
+              </header>
+              <div class="panel-body center">
+                <div class="gauge-wrapper gauge-wrapper-large">
+                  <canvas id="scorePostAwardMMGauge"></canvas>
+                  <div class="gauge-score">74%</div>
+                </div>
+              </div>
+            </div>
+            <div class="panel small-gauge">
+              <header class="panel-header">
+                <h2>Score Post Award Contract</h2>
+              </header>
+              <div class="panel-body center">
+                <div class="gauge-wrapper gauge-wrapper-large">
+                  <canvas id="scorePostAwardContractGauge"></canvas>
+                  <div class="gauge-score">69%</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Tables -->
+          <section class="tables-row">
+            <div class="panel table-panel">
+              <header class="panel-header">
+                <h2>NCR Count by Status / Contractor / Project</h2>
+                <p>With criticality &amp; discipline</p>
+              </header>
+              <div class="panel-body table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Contractor</th>
+                      <th>Project</th>
+                      <th>Status</th>
+                      <th>Criticality</th>
+                      <th>Discipline</th>
+                      <th>Count</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Supplier A</td>
+                      <td>Project Alpha</td>
+                      <td>Open</td>
+                      <td class="pill pill-high">High</td>
+                      <td>Mechanical</td>
+                      <td>4</td>
+                    </tr>
+                    <tr>
+                      <td>Supplier B</td>
+                      <td>Project Beta</td>
+                      <td>In Progress</td>
+                      <td class="pill pill-medium">Medium</td>
+                      <td>Civil</td>
+                      <td>3</td>
+                    </tr>
+                    <tr>
+                      <td>Supplier C</td>
+                      <td>Project Gamma</td>
+                      <td>Closed</td>
+                      <td class="pill pill-low">Low</td>
+                      <td>Electrical</td>
+                      <td>7</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="panel table-panel">
+              <header class="panel-header">
+                <h2>QOR Count by Status / Contractor / Project</h2>
+                <p>With criticality &amp; discipline</p>
+              </header>
+              <div class="panel-body table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Contractor</th>
+                      <th>Project</th>
+                      <th>Status</th>
+                      <th>Criticality</th>
+                      <th>Discipline</th>
+                      <th>Count</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Supplier A</td>
+                      <td>Project Alpha</td>
+                      <td>Open</td>
+                      <td class="pill pill-high">High</td>
+                      <td>Process</td>
+                      <td>2</td>
+                    </tr>
+                    <tr>
+                      <td>Supplier D</td>
+                      <td>Project Delta</td>
+                      <td>Closed</td>
+                      <td class="pill pill-low">Low</td>
+                      <td>Instrumentation</td>
+                      <td>6</td>
+                    </tr>
+                    <tr>
+                      <td>Supplier E</td>
+                      <td>Project Epsilon</td>
+                      <td>In Progress</td>
+                      <td class="pill pill-medium">Medium</td>
+                      <td>Piping</td>
+                      <td>5</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </section>
+      </main>
+
+      <!-- Filters overlay -->
+      <div class="filters-overlay hidden" id="filtersOverlay">
+        <div class="filters-backdrop"></div>
+        <div class="filters-panel">
+          <header class="filters-header">
+            <h2>Filters</h2>
+            <button class="icon-button" id="closeFiltersBtn">&times;</button>
+          </header>
+
+          <div class="filters-grid">
+            <div class="filter-field">
+              <label>Fournisseur</label>
+              <select>
+                <option>All</option>
+                <option>Supplier A</option>
+                <option>Supplier B</option>
+                <option>Supplier C</option>
+              </select>
+            </div>
+            <div class="filter-field">
+              <label>Category</label>
+              <select>
+                <option>All</option>
+                <option>Mechanical</option>
+                <option>Civil</option>
+                <option>Electrical</option>
+              </select>
+            </div>
+            <div class="filter-field">
+              <label>Sous Category</label>
+              <select>
+                <option>All</option>
+              </select>
+            </div>
+            <div class="filter-field">
+              <label>BU</label>
+              <select>
+                <option>All</option>
+                <option>BU 1</option>
+                <option>BU 2</option>
+              </select>
+            </div>
+            <div class="filter-field">
+              <label>Projects</label>
+              <select>
+                <option>All</option>
+                <option>Project Alpha</option>
+                <option>Project Beta</option>
+              </select>
+            </div>
+            <div class="filter-field">
+              <label>Tiering</label>
+              <select>
+                <option>All</option>
+                <option>Tier 1</option>
+                <option>Tier 2</option>
+                <option>Tier 3</option>
+              </select>
+            </div>
+            <div class="filter-field">
+              <label>Région</label>
+              <select>
+                <option>All</option>
+                <option>EMEA</option>
+                <option>Americas</option>
+                <option>APAC</option>
+              </select>
+            </div>
+            <div class="filter-field">
+              <label>Period</label>
+              <select>
+                <option>Last 12 months</option>
+                <option>Year to date</option>
+                <option>Custom</option>
+              </select>
+            </div>
+
+            <div class="filter-field filter-field-wide">
+              <label>Date</label>
+              <div class="date-range">
+                <input type="date" value="2015-01-01" />
+                <span class="date-separator">to</span>
+                <input type="date" value="2035-12-31" />
+              </div>
+              <div class="range-track">
+                <div class="range-thumb left"></div>
+                <div class="range-thumb right"></div>
+              </div>
+            </div>
+          </div>
+
+          <footer class="filters-footer">
+            <button class="link-button" id="clearFiltersBtn">Clear Filter</button>
+            <button class="primary-button" id="applyFiltersBtn">Apply</button>
+          </footer>
+        </div>
+      </div>
+    </div>
+
+    <script src="./main.js"></script>
+  </body>
+  </html>
+
