@@ -235,6 +235,7 @@ body {
   margin-top: 2px;
   position: relative;
   z-index: 1;
+  display: none;
 }
 
 /* "View All" link button inside KPI card */
