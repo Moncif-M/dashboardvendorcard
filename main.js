@@ -41,7 +41,23 @@ function createGauge(ctx, value, options = {}) {
 function updateGauge(chart, value, max = 100) {
   if (!chart) return;
   const percent = Math.max(0, Math.min(1, value / max));
-  chart.data.datasets[0].data = [percent, 1 - percent];
+
+  // Conditional color: red / orange / green based on value
+  let color = '#52c41a'; // green
+  if (value < 60) {
+    color = '#f5222d'; // red
+  } else if (value < 80) {
+    color = '#faad14'; // orange
+  }
+
+  const ds = chart.data.datasets[0];
+  ds.data = [percent, 1 - percent];
+  if (Array.isArray(ds.backgroundColor)) {
+    ds.backgroundColor[0] = color;
+  } else {
+    ds.backgroundColor = [color, '#edf1f7'];
+  }
+
   chart.update();
 }
 
