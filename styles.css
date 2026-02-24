@@ -138,6 +138,49 @@ body {
   gap: 10px;
 }
 
+/* Specific layout for pre-award KPIs:
+   Row 1: Tiering | Global Risk | Successful Awards | Awarding Volume
+   Row 2: Ongoing PO | Ongoing Bids (spans 2) | % JESA Scope
+*/
+.kpi-row-pre {
+  /* Use 8 equal columns so we can fine-tune widths
+     Row 1: each KPI spans 2 columns (4 equal cards)
+     Row 2: Ongoing PO spans 2, Ongoing Bids spans 3, % JESA Scope spans 3 */
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    'tiering tiering globalRisk globalRisk successfulAwards successfulAwards awardingVolume awardingVolume'
+    'ongoingPO ongoingPO ongoingBids ongoingBids ongoingBids jesaScope jesaScope jesaScope';
+}
+
+.kpi-row-pre .kpi-tiering {
+  grid-area: tiering;
+}
+
+.kpi-row-pre .kpi-globalRisk {
+  grid-area: globalRisk;
+}
+
+.kpi-row-pre .kpi-successfulAwards {
+  grid-area: successfulAwards;
+}
+
+.kpi-row-pre .kpi-awardingVolume {
+  grid-area: awardingVolume;
+}
+
+.kpi-row-pre .kpi-ongoingPO {
+  grid-area: ongoingPO;
+}
+
+.kpi-row-pre .kpi-ongoingBids {
+  grid-area: ongoingBids;
+}
+
+.kpi-row-pre .kpi-jesaScope {
+  grid-area: jesaScope;
+}
+
 /* Post award: 2 x 2 KPI layout */
 .view-post .kpi-row {
   grid-template-columns: repeat(2, minmax(0, 1fr));

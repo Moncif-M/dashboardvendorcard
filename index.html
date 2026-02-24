@@ -49,9 +49,9 @@
       <main class="dashboard">
         <!-- Pre Award view -->
         <section class="view view-pre active" data-view="pre">
-          <!-- KPI rows (8 KPIs, 4 x 4) -->
+          <!-- KPI rows (custom layout 4 + 3 with stretching) -->
           <section class="kpi-row kpi-row-pre">
-            <article class="kpi-card" data-kpi="tiering">
+            <article class="kpi-card kpi-tiering" data-kpi="tiering">
               <div class="kpi-header">
                 <div class="kpi-icon kpi-icon-blue"><i class="fa-solid fa-layer-group"></i></div>
                 <div class="kpi-title">Tiering</div>
@@ -60,7 +60,7 @@
               <div class="kpi-subtitle">Pre award</div>
             </article>
 
-            <article class="kpi-card" data-kpi="globalRisk">
+            <article class="kpi-card kpi-globalRisk" data-kpi="globalRisk">
               <div class="kpi-header">
                 <div class="kpi-icon kpi-icon-green"><i class="fa-solid fa-globe"></i></div>
                 <div class="kpi-title">Supplier Global Risk</div>
@@ -69,7 +69,7 @@
               <div class="kpi-subtitle">Geopolitic, logistic, penuries…</div>
             </article>
 
-            <article class="kpi-card" data-kpi="successfulAwards">
+            <article class="kpi-card kpi-successfulAwards" data-kpi="successfulAwards">
               <div class="kpi-header">
                 <div class="kpi-icon kpi-icon-purple"><i class="fa-solid fa-trophy"></i></div>
                 <div class="kpi-title">Successful Awards</div>
@@ -78,7 +78,7 @@
               <div class="kpi-subtitle">Last 12 months</div>
             </article>
 
-            <article class="kpi-card" data-kpi="awardingVolume">
+            <article class="kpi-card kpi-awardingVolume" data-kpi="awardingVolume">
               <div class="kpi-header">
                 <div class="kpi-icon kpi-icon-orange"><i class="fa-solid fa-coins"></i></div>
                 <div class="kpi-title">Awarding Volume</div>
@@ -87,7 +87,7 @@
               <div class="kpi-subtitle">Dirhams</div>
             </article>
 
-            <article class="kpi-card" data-kpi="ongoingPO">
+            <article class="kpi-card kpi-ongoingPO" data-kpi="ongoingPO">
               <div class="kpi-header">
                 <div class="kpi-icon kpi-icon-pink"><i class="fa-solid fa-file-contract"></i></div>
                 <div class="kpi-title">Ongoing PO / Contracts</div>
@@ -96,7 +96,7 @@
               <div class="kpi-subtitle">How many PO / Contracts ongoing</div>
             </article>
 
-            <article class="kpi-card" data-kpi="ongoingBids">
+            <article class="kpi-card kpi-ongoingBids" data-kpi="ongoingBids">
               <div class="kpi-header">
                 <div class="kpi-icon kpi-icon-orange"><i class="fa-solid fa-gavel"></i></div>
                 <div class="kpi-title">Ongoing Bids</div>
@@ -105,16 +105,7 @@
               <div class="kpi-subtitle">How many ongoing bids</div>
             </article>
 
-            <article class="kpi-card" data-kpi="scorePreAwardKpi">
-              <div class="kpi-header">
-                <div class="kpi-icon kpi-icon-green"><i class="fa-solid fa-gauge-high"></i></div>
-                <div class="kpi-title">Score Pre Award</div>
-              </div>
-              <div class="kpi-value">81%</div>
-              <div class="kpi-subtitle">Global pre award score</div>
-            </article>
-
-            <article class="kpi-card" data-kpi="jesaScope">
+            <article class="kpi-card kpi-jesaScope" data-kpi="jesaScope">
               <div class="kpi-header">
                 <div class="kpi-icon kpi-icon-pink"><i class="fa-solid fa-chart-pie"></i></div>
                 <div class="kpi-title">% of JESA Scope</div>
@@ -260,7 +251,7 @@
             <div class="panel table-panel">
               <header class="panel-header">
                 <h2>NCR Count by Status / Contractor / Project</h2>
-                <p>With criticality &amp; discipline</p>
+             
               </header>
               <div class="panel-body table-wrapper">
                 <table>
@@ -307,7 +298,7 @@
             <div class="panel table-panel">
               <header class="panel-header">
                 <h2>QOR Count by Status / Contractor / Project</h2>
-                <p>With criticality &amp; discipline</p>
+                
               </header>
               <div class="panel-body table-wrapper">
                 <table>

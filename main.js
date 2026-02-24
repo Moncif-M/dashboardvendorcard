@@ -156,7 +156,6 @@ function applyScenario(scenarioKey = 'default') {
   setKpi('awardingVolume', s.awardingVolume);
   setKpi('ongoingPO', s.ongoingPO);
   setKpi('ongoingBids', s.ongoingBids);
-  setKpi('scorePreAwardKpi', s.scorePreAwardKpi);
   setKpi('jesaScope', s.jesaScope);
   // Post award KPIs
   setKpi('changeRequests', s.postChangeRequests);
